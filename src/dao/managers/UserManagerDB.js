@@ -10,7 +10,6 @@ class UserManagerDB {
         return users;
     }
     saveUser = async (user) => {
-        
         let result = await userModel.create(user);
         return result;
     }

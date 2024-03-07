@@ -6,7 +6,7 @@ class CartManagerDB {
         console.log('Funciona el CartManagerDB');
     }
     getCarts = async () => {
-        const carts = await cartModel.find()
+        const carts = await cartModel.find();
         return carts;
     }
 

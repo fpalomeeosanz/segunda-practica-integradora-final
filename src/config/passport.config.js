@@ -8,6 +8,7 @@ const LocalStrategy = local.Strategy;
 
 const inicializePassport = () => {
 
+    //PASSPORT LOCAL
     passport.use("register", new LocalStrategy(
         {passReqToCallback:true, usernameField:"email"},
         async ( req, username, password, done ) => {
@@ -62,6 +63,7 @@ const inicializePassport = () => {
         done(null, user);
     });
 
+    //PASSPORT GITHUB
     passport.use('github', new GitHubStrategy({
         clientID: "Iv1.514facd7ce886c08",
         clientSecret:"56881637e9a2a221631a807f39594c71724c73af",

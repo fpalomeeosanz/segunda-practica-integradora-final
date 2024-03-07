@@ -6,15 +6,18 @@ import passport from "passport";
 const router = Router();
 
 //REGISTER
-router.post("/register", passport.authenticate("register", {failureRedirect:"/api/sessions/failregister"}),
-async (req,res) => {
-    res.send({status:"success", message:"User registrado"})
-})
+router.post("/register", passport.authenticate("register", {failureRedirect:"/api/sessions/failregister"}),(req,res) => {
+    
+    res.send({
+        status:"success", 
+        message:"Usuario registrado",
+    })
+});
 
 router.get("/failregister", async (req,res)=>{
     console.log('Fallo el registro');
     res.send({error: 'fallo en el registro'})
-})
+});
 
 //LOGIN
 router.post("/login", passport.authenticate("login", {failureRedirect:'/api/session/faillogin'}),
@@ -29,11 +32,11 @@ async (req,res) =>{
         email:req.user.email
     }
     res.send({status:"success", payload:req.user})
-})
+});
 
 router.get("/faillogin", (req,res)=>{
     res.send({error:"fail login"})
-})
+});
 
 //GITHUB PASSPORT
 router.get("/github", passport.authenticate("github", {scope:['user:email']}), async (req,res)=>{});
@@ -62,7 +65,7 @@ router.get('/logout', (req,res)=>{
         }
         res.redirect('/login')
     })
-})
+});
 
 //RESTAR PASSWORD
 router.post("/restartPassword", async (req,res)=>{
@@ -87,6 +90,6 @@ router.post("/restartPassword", async (req,res)=>{
         status:"success",
         message:"contraseña restaurada"
     })
-})
+});
 
 export { router as sessionRouter };
