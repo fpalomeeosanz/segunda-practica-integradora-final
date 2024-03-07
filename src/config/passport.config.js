@@ -20,12 +20,14 @@ const inicializePassport = () => {
                 console.log('Usuario ya registrado');
                 return done(null,false)
             }
-            
+            //CARRITO USER
+            const cart = userModel.create()
             const newUser = {
                 first_name,
                 last_name,
                 email,
                 age,
+                cart: cart._id,
                 password: createHash(password)
             }
             const result = await userModel.create(newUser);
