@@ -18,7 +18,7 @@ const inicializePassport = () => {
             let user = await userModel.findOne({email:username});
             if(user){
                 console.log('Usuario ya registrado');
-                return done(null,false)
+                return done(null, false)
             }
             const newUser = {
                 first_name,

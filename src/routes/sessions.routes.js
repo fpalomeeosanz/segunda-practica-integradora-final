@@ -9,9 +9,12 @@ const router = Router();
 //REGISTER
 router.post("/register", passport.authenticate("register", { failureRedirect: "/api/sessions/failregister" }), async (req, res) => {
     try {
-      const { first_name, last_name, email, age, password } = req.body; 
+       
       //CREA CARRITO
-      const cart = await cartModel.create(); 
+      const cart = await cartModel.create({}); 
+      console.log(cart);
+      
+      const { first_name, last_name, email, age, password } = req.body;
       //ASIGNA ID
       const newUser = {
         first_name,
@@ -21,7 +24,7 @@ router.post("/register", passport.authenticate("register", { failureRedirect: "/
         cart: cart._id,
         password: createHash(password)
         };
-
+        
       //GUARDA USER
       const result = await userModel.create(newUser);
   
