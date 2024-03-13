@@ -1,17 +1,41 @@
 import { Router } from "express";
 import userModel from "../dao/models/userModel.js";
+import cartModel from "../dao/models/cartModel.js";
 import { createHash, validatePassword } from "../utils.js";
 import passport from "passport";
 
 const router = Router();
 
 //REGISTER
-router.post("/register", passport.authenticate("register", {failureRedirect:"/api/sessions/failregister"}),(req,res) => {
-    
-    res.send({
-        status:"success", 
-        message:"Usuario registrado",
-    })
+router.post("/register", passport.authenticate("register", { failureRedirect: "/api/sessions/failregister" }), async (req, res) => {
+    try {
+      const { first_name, last_name, email, age, password } = req.body; 
+      //CREA CARRITO
+      const cart = await cartModel.create(); 
+      //ASIGNA ID
+      const newUser = {
+        first_name,
+        last_name,
+        email,
+        age,
+        cart: cart._id,
+        password: createHash(password)
+        };
+
+      //GUARDA USER
+      const result = await userModel.create(newUser);
+  
+      //RESPUESTA
+      res.send({
+        status: "success",
+        message: "Usuario registrado",
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        error: "Error al crear el usuario y el carrito",
+      });
+    }
 });
 
 router.get("/failregister", async (req,res)=>{
